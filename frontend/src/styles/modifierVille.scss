@@ -1,4 +1,4 @@
-.ajoutVille {
+.modifierVille {
     position: relative;
     margin: 0 auto;
     margin-top: 3%;
@@ -14,7 +14,7 @@
       width: 80%;
     }
   
-    .ajoutVilleTitre {
+    .modifierVilleTitre {
 
       h2{
 
@@ -62,7 +62,7 @@
           }
   
           &:focus {
-            border-color:rgb(38, 145, 187);
+            border-color: rgb(38, 145, 187);
           }
         }
   

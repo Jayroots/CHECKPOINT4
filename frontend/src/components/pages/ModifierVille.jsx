@@ -1,7 +1,7 @@
-import { useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useEffect, useState } from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
-function AjoutVille() {
+function ModifierVille() {
 
 const [isDataSended, setIsDataSended] = useState(false);
 
@@ -16,25 +16,46 @@ const [formData,setFormData] = useState ({
     
 })
 
+const {id} = useParams();
+
+useEffect(() =>{
+    fetch(`http://localhost:5002/villes/${id}`)
+        .then((response) => response.json())
+        .then((res) => {
+            setFormData({
+                code_commune: res.code_commune, 
+                nom_commune: res.nom_commune, 
+                conformite_limites_pc_prelevement: res.conformite_limites_pc_prelevement, 
+                image: res.image
+
+            });
+        })
+        .catch((err) =>
+        console.error(
+            "Une erreur est survenue dans la récupération des données",
+          err
+        ))
+}, [id])
+
 const handleChange = (e) => {
     setFormData((previousValue) => ({
         ...previousValue, [e.target.name]:e.target.value
     }))
-}
+};
 
 const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:5002/villes",{
+    fetch(`http://localhost:5002/villes/${id}`,{
         headers: {
             'Accept': "application/json",
             'Content-Type': "application/json"
         },
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(formData)
     })
     .then(() => {
-        console.log("Insertion Reussie")
+        console.log("Modification Reussie")
 
         setIsDataSended(true);
         
@@ -62,7 +83,7 @@ const handleSubmit = (e) => {
 
         <>
                 <li className="ajoutVilleTitre" > 
-                <h2>Ajouter une ville</h2>
+                <h2>Modifier une ville</h2>
                 </li>
 
                 <li className="ajoutVilleForm" >
@@ -71,32 +92,32 @@ const handleSubmit = (e) => {
                     <input 
                     name="code_commune" 
                     placeholder="Code Commune"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     value={formData.code_commune}
                     />
 
                     <input
                     name="nom_commune" 
                     placeholder="Nom de la commune"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     value={formData.nom_commune}
                     />
 
                     <input 
                     name="conformite_limites_pc_prelevement"
                     placeholder="Resultat de la conformité du prelevement"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     value={formData.conformite_limites_pc_prelevement}
                     />
 
                     <input 
                     name="image" 
                     placeholder="Url de l'image"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     value={formData.image}
                     />
 
-                    <button type="submit" onClick={handleSubmit}> Envoyer </button>
+                    <button type="submit" onClick={handleSubmit}> Mettre à jour </button>
 
                 </form>
                 </li>
@@ -109,7 +130,7 @@ const handleSubmit = (e) => {
 
    <li className="ajoutVilleMessageSuccess">
    <div className="progress-bar" ></div>
-   <p>La ville a bien été ajoutée a la base de données</p>
+   <p>La ville a bien été modifiée</p>
 </li>
 
 }
@@ -118,4 +139,4 @@ const handleSubmit = (e) => {
     );
   }
 
-export default AjoutVille;
+export default ModifierVille;

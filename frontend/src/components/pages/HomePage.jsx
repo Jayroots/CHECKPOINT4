@@ -1,7 +1,6 @@
 import { useEffect, useState} from "react";
 import QualiteEauCarte from "../QualiteEauCarte";
 
-
 function HomePage() {
 
     const [data, setData] = useState([]);
@@ -15,10 +14,6 @@ function HomePage() {
 
     }, [])
 
-
-
-
-
    
 
     function handleChange(e) {
@@ -26,9 +21,19 @@ setSelectedValue(e.target.value)
 
     }
 
-
-
-
+    const handleDeleteCity = (id) => {
+        // Effectuer la suppression de l'entité côté serveur
+        fetch(`http://localhost:5002/villes/${id}`, {
+          method: "DELETE",
+        })
+          .then((response) => response.json())
+          .then((res) => {
+            console.warn(res);
+            // Mettre à jour l'état local 'data' après la suppression réussie
+            setData((prevData) => prevData.filter((item) => item.id !== id));
+          })
+          .catch((err) => console.error(err));
+      };
 
 
 
@@ -61,6 +66,7 @@ return (
                         code_commune={el.code_commune} 
                         nom_commune={el.nom_commune}
                         conformite_limites_pc_prelevement={el.conformite_limites_pc_prelevement}
+                        onDelete={() => handleDeleteCity(el.id)}
                         />
                     )
                 })}

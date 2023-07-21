@@ -17,6 +17,8 @@ function NavBar() {
     <NavLink to="/ajout" >
     <li>Ajouter</li>
     </NavLink>
+
+    
 </ul>
         </nav>
     )
