@@ -1,71 +1,55 @@
-### Entraînement avec React.js
-#### Vidéo YouTube pour la correction et les explications : `https://www.youtube.com/watch?v=OmcxhENdt4M`
+## ```Partie 3: Implémenter l'ajout de fichier```
 
+### 0. Piqûre de rappel
 
-## __Préambule__ :
-#### Une fois le projet cloné sur ta machine, tu peux faire un :
+    - A ce stade, n'importe quel utilisateur peut:
+        - Créer un personnage depuis un formulaire, et avoir une réponse en retour suffisamment précise pour savoir s'il a réussi. Cette fonctionnalité a été réalisée dans la vidéo suivante: 
 
-npm install
+🔽🔽🔽      [Lien vers la vidéo YouTube](https://www.youtube.com/watch?v=AR2-vcDQ8_E)
 
-#### Cette commande permet d'installer les node_modules renseignés dans le package.json.
-#### Puis, tu peux écrire la commande :
+        - Bien entendu, il manque encore quelques fonctionnalités, telles que: 
+            - Sécurisation côté front (avec une indication claire si un input a été mal renseigné);
+            - Sécurisation côté back (pour se protéger des injections SQL notamment);
+            - Une possibilité de mettre à jour un personnage particulier
+            - Une possibilité d'en supprimer un...
+        - L'heure n'étant pas au déploiement, je t'invite à poursuivre le challenge en mettant cela entre parenthèses 🙂
 
-npm run dev
+### 1. Préparation de la partie backend
 
-#### Tu constateras qu'il n'y a rien d'affiché. C'est normal : J'ai nettoyé le fichier App.jsx, et j'ai supprimé les fichiers .css. En résumé : il n'y a rien d'autre qu'une <div> parente.
+    - A la racine du backend, il nous faut créer le dossier public:
+        - A l'intérieur duquel nous créérons:
+            - un dossier tmp (zone d'accueil du fichier téléchargé avant de l'envoyer dans son emplacement définitif);
+            - un dossier uploads (qui sera le dossier d'accueil des fichiers téléchargés, en fin d'exécution du processus qu'implique multer);
 
-#### Pour cet exercice, tu vas devoir créer un petit projet permettant d'afficher des personnages du dessin animé Rick and Mory, et de les filtrer. Voici les étapes :
+### 2. Installation et utilisation de la dépendance multer
 
-  ## 0. Voici le lien vers le template, pour que tu aies une idée visuelle de ce qui devra être créé (à noter que ce sont des Simpsons sur les cartes, mais c'est juste pour te donner une idée) :
+    - Installation la dépendance multer dans la partie backend, puis:
+        - Créer un fichier uploadRouter.route.js, dans lequel il faudra écrire les lignes de code nécessaires pour obtenir une route permettant le téléchargement d'une image.
+        - Puis, il nous faut créer une fonction / middleware `uploadController` (le fichier peut être stocké dans le dossier controller). Elle te servira notamment à gérer le renommage du fichier provenant de la requête.
 
-  https://www.figma.com/file/zod7tucuxealQKeYVOh0Bf/Untitled?node-id=0-1&t=wbqpwBqZPuKQ8Mra-0
- 
-  #### Tu peux commencer à créer ton architecture (l'organisation des fichiers), et le CSS qui sera associé à chaque composant. Je t'invite à installer et utiliser SCSS dans ton projet :
+        🤨 Un doute sur la manière de faire ? Regarde la quête sur l'upload de fichier avec multer !
 
-  *npm install sass*
+    - Enfin, tu peux tester dans Postman si ton téléchargement est fonctionnel, en veillant à sélectionner le format form-data, et appliquer le bon nommage pour la key 🔥
 
-  #### Il te faudra donc créer un dossier style (ou styles) dans le dossier src/, lequel contiendra toutes les fiches de styles que tu créeras.
+### 3. Permettre à l'utilisateur de télécharger une image depuis la page Admin Panel
 
-  ## 1. Petite aide pour composer l'architecture : Le composant App doit importer les composants suivants :
-##    ---> Header;
-##    ---> HomePage;
-##    ---> ContactPage;
-##    ---> Footer;
+    - La suite de ce challenge concernera la partie frontend. Ne la sous-estime pas, il y sera question d'affichages conditionnels, de feuilles de style, de variables d'états utilisées à bon escient... Bref, un super terrain d'entraînement avec React !
 
-  ##  `*1.bis : __Rappel :__ C'est le composant HomePage qui sera le propriétaire des données provenant de l'API.`
-  ## `*1.ter : __A ce stade...__ Tu devras créer le header et le footer par toi-même, conformément à la maquette.` 
+    - Je te propose de créer un pattern permettant une expérience utilisateur agréable (perfectible, certes, mais agréable 😀). Voici le lien vers la vidéo YouTube qui t'aidera à te le représenter:
 
-  ## 2. Dans le composant HomePage, tu vas désormais fetcher ce qui vient de l'API (je te donne le lien dans quelques instants). Pour cela, tu as deux solutions :
-    💡 Télécharger la librairie __axios__ (npm install axios);
-    💡 Utiliser la méthode fetch, qui est nativement présente en JavaScript.
-  ### Si ta mémoire te fait défaut, ou si tu veux explorer, je t'invite à lire la documentation d'une des deux méthodes. Tu peux aussi remettre le nez dans les quêtes pour voir comment faire 😊
+🔽🔽🔽      [Lien vers la vidéo YouTube](https://www.youtube.com/watch?v=rURZ1iCKym0) 
 
-  ##  `*2.bis : __Le endpoint__ de l'API sera le suivant ; c'est cette adresse qu'il faudra interroger pour récupérer les données :`
-##    ---> https://rickandmortyapi.com/api/character
-  ## `* Comme tu peux le constater, on interroge le endpoint /character, qui nous permettra de fetcher des données en provenance de l'API. Pour voir à quoi ressemble ces données, et donc comprendre ce que tu vas récupérer, tu peux copier l'URL dans ton navigateur.`
+    - Tu vas devoir transformer l'actuel composant CreationCharacterForm pour qu'il affiche un input de type checkbox à la place de l'input de type "text" (celui dédié aux images);
+    
+        - En d'autres termes, l'utilisateur doit voir sur son navigateur la proposition suivante:
+            `Voulez-vous télécharger une image ? 🔘 Yes  🔘 No`
+            - S'il clique sur oui, un input de type "file" doit apparaître. 
+            - S'il clique sur non, un message apparaît nous avertissant que la création n'est pas possible sans image, ainsi qu'un bouton nous permettant de revenir à l'étape précédente.
 
-  ### Tu es bloqué ? 🧐 Revisite tes quêtes, ou regarde comment on fetch des données en React.js. Sinon, tu peux regarder la vidéo.
+### 4. A partir de là...
 
-  ## 3. Stocke ces données dans un state (ou variable d'état) nommé data.
-  ###   `* 3.bis : A l'initialisation, la valeur du state doit être un tableau vide.`
-  ###   `*3.ter : Un petit console.log te permettra de savoir si tu as bien récupéré les données ✅`
+    - Je te laisse explorer, méditer et définir ta manière de faire. A noter qu'il n'y en a pas qu'une seule. Seulement, il y en aura des plus optimisées que d'autres.
 
-  ## 4. 🔍️ Désormais, il est temps de faire fonctionner ta mémoire 🧠, et de faire tes propres recherches. Ton objectif est de mapper le tableau de Simpsons, pour retourner une carte par personnage. Il est volontaire de ma part de ne pas te guider davantage 😊
-  ###   `*4.bis : Un petit indice tout de même : tu dois créer un composant RickAndMortyCard.`
+    - Je développe certaines stratégies dans ma vidéo sur la création de personnage (cf. partie 2, 8ème étape), tu peux aller y jeter un oeil pour t'en inspirer 😉
 
-  ## 5. ... Après cette longue phase de travail, tu devrais avoir une liste de cartes, au nombre de 20. Applique le style qu'il faut pour pour être au plus proche de la maquette.
-
-  ## 6. Il est l'heure d'ajouter de l'intéractivité à ta page. Si tu ne l'as pas fait, tu peux créer un sélecteur, qui te permettra à l'issue de filtrer les informations présentes à l'écran.
-  ### `* 6.bis : Un exemple de User Story :`
-  #### `[US-??] En tant qu'utilisateur, je veux pouvoir filtrer dynamiquement les cartes affichées dans la HomePage`
-  #### `[US-??bis] En tant qu'utilisateur, mon sélecteur devra me proposer tous les noms de tous les personnages affichées en cartes.`
-
-  ## 7. Rendus à la septième étape, il est temps de te concentrer sur la création du formulaire. Regarde la maquette, et construit la page conformément à celle-ci.
-  ### `* 7.bis : Ton formulaire n'envoie rien pour le moment, et c'est normal. Ce qu'on souhaite, c'est que les éléments soient physiquement présents sur l'image`
-
-  ## 8. Il est temps d'installer la dépendance suivante :
-  `*    ---> npm install react-router-dom`
-  ### Tu l'as compris : Il faut donner à l'utilisateur la possibilité de changer de page. Je te laisse replonger dans ce que tu as appris dans les quêtes concernant la navigation en React.js, et ses spécificités.
-
-  ## 9. Nouvelle étape, nouveau palier difficulté : Les cartes doivent être cliquables, et renvoyer vers une page par id.
-  ### `* 9.bis : Tu te rappelles de useParams ?`
+    Bonne chance 🚀

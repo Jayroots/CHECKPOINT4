@@ -1,0 +1,60 @@
+.homePage {
+    
+  background-image: url("./src/assets/goutte.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+  select {
+      margin-top: 48px;
+      padding: 12px 48px;
+      font-size: 24px;
+      border-radius: 20px;
+      text-align: center;
+  }
+
+  ul {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 4%;
+  }
+/* 
+    
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+    &_ul{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 4%;
+        margin-bottom: 10%;
+
+    } */
+  /*   display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; */
+    
+/*     &_select {
+        margin-top: 48px;
+        padding: 12px 48px;
+        font-size: 24px;
+    }
+
+    &_ul {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 4%;
+    } */
+
+}

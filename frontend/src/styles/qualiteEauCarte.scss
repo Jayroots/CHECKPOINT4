@@ -1,0 +1,35 @@
+/* .qualiteEauCarte {
+    text-align: center;
+    margin-top: 10%;
+   padding: 1.5%;
+   
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: whitesmoke;
+
+  p{
+    padding: 2%;
+  }
+    
+} */
+
+.qualiteEauCarte{
+  text-align: center;
+  margin-top: 2%;
+  min-height: 400px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background: whitesmoke;
+  padding: 2%;
+
+
+  p {
+      padding-block: 24px;
+     
+  }
+
+  img {
+      height: 300px;
+      border-radius: 20px;
+  }
+}
